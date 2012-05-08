@@ -82,7 +82,7 @@ describe Mustache::Railstache do
 
       @f = FullStache.new
 
-      @template_extension = "html.mustache"
+      @template_extension = ".mustache"
 
       rails_root = "/tmp/this_doesnt_exist"
       @template_root = "#{rails_root}/app/templates"
@@ -97,7 +97,7 @@ describe Mustache::Railstache do
 
       Rails.stub(:root).and_return(Pathname.new(rails_root))
 
-      @f.stub(:template_file).and_return("#{@template_path}/test.html.mustache")
+      @f.stub(:template_file).and_return("#{@template_path}/test..mustache")
     end
 
     after do
