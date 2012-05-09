@@ -82,7 +82,7 @@ describe Mustache::Railstache do
 
       @f = FullStache.new
 
-      @template_extension = ".mustache"
+      @template_extension = "mustache"
 
       rails_root = "/tmp/this_doesnt_exist"
       @template_root = "#{rails_root}/app/templates"
