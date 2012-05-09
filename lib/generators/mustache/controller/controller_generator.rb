@@ -22,10 +22,10 @@ class Mustache
           mustache_view_path       = File.join(base_mustache_view_path,
                                                 "#{action}.rb")
           mustache_template_path   = File.join(base_mustache_template_path,
-                                                "#{action}..mustache")
+                                                "#{action}.mustache")
 
           template "view.rb.erb", mustache_view_path
-          template "view..mustache.erb", mustache_template_path
+          template "view.mustache.erb", mustache_template_path
         end
       end
 

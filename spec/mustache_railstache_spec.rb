@@ -97,7 +97,7 @@ describe Mustache::Railstache do
 
       Rails.stub(:root).and_return(Pathname.new(rails_root))
 
-      @f.stub(:template_file).and_return("#{@template_path}/test..mustache")
+      @f.stub(:template_file).and_return("#{@template_path}/test.mustache")
     end
 
     after do

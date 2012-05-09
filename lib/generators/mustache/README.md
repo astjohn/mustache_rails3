@@ -5,7 +5,7 @@ The generators provided are experimental and incomplete. [Mustache](http://githu
 I'm assuming that the Mustache template engine that gets the official blessing will expect to find files where Chris W. and others have suggested the files should go. I.e. the files for widget views would go in:
 
 * app/views/widgets/action.rb for view class definitions
-* app/templates/widgets/action..mustache for templates
+* app/templates/widgets/action.mustache for templates
 
 ### To Do
 

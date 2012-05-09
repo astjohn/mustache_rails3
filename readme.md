@@ -24,7 +24,7 @@ end
 Mustache::Rails registers a TemplateHandler for ".rb" files. Templates go in
 app/templates/:controller/:action.format.mustache
 
-<pre><code>#app/templates/home/index..mustache
+<pre><code>#app/templates/home/index.mustache
 
 Hello {{world}}!
 </code></pre>
@@ -44,7 +44,7 @@ end
 
 Place the template for your layout in app/templates/layouts/:layout.format.mustache
 
-<pre><code>#app/templates/layouts/main..mustache
+<pre><code>#app/templates/layouts/main.mustache
 
 &lt;h1>{{default_title}}&lt;/h1>
 {{{yield}}}

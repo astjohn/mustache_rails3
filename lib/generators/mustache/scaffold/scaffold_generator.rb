@@ -16,15 +16,15 @@ class Mustache
         views.each do |view|
           template "#{view}.rb.erb",
                    File.join("app/views", controller_file_path, "#{view}.rb")
-          template "#{view}..mustache.erb",
+          template "#{view}.mustache.erb",
                    File.join("app/templates",
                              controller_file_path,
-                             "#{view}..mustache")
+                             "#{view}.mustache")
         end
-        template "_form..mustache.erb",
+        template "_form.mustache.erb",
                    File.join("app/templates",
                              controller_file_path,
-                             "_form..mustache")
+                             "_form.mustache")
       end
 
       private
