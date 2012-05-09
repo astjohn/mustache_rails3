@@ -108,7 +108,7 @@ class Mustache
       end
 
       def self.template_extension
-        @template_extension ||= 'html.mustache'
+        @template_extension ||= 'mustache'
       end
 
       def self.template_extension=(value)
