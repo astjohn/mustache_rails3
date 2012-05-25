@@ -9,12 +9,12 @@ I'm just getting started. This really is a low-numbered prerelease. :-) I have a
 
 ### Views & Templates
 
-For your view files, subclass Mustache::Rails as (:controller)::(:action) in
+For your view files, subclass Mustache::Railstache as (:controller)::(:action) in
 app/views/:controller/:action.rb
 
 <pre><code>#app/views/home/index.rb
 
-class Home::Index &lt; Mustache::Rails
+class Home::Index &lt; Mustache::Railstache
   def world
     'New Caprica'
   end
@@ -22,7 +22,7 @@ end
 </code></pre>
 
 Mustache::Rails registers a TemplateHandler for ".rb" files. Templates go in
-app/templates/:controller/:action.format.mustache
+app/templates/:controller/:action.mustache
 
 <pre><code>#app/templates/home/index.mustache
 
@@ -35,7 +35,7 @@ Layouts work much the same way, using a similar naming convention. Subclass Must
 
 <pre><code>#app/views/layouts/main.rb
 
-class Layouts::Main &lt; Mustache::Rails
+class Layouts::Main &lt; Mustache::Railstache
   def default_title
     'A Cylon fleet has jumped into orbit!'
   end
