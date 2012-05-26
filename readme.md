@@ -22,6 +22,8 @@ gem 'mustache_rails3'
 
 ## Configuration
 
+This is optional. You would only need this to change the default which is shown below.
+
 <pre><code>#config/initializer/mustache_rails.rb
 
 Mustache::Rails::Config.template_base_path = Rails.root.join('app', 'assets', 'javascripts', 'templates')
