@@ -78,7 +78,7 @@ available in the scope of your asset files.
 You'll generally need to understand and remain aware of this when writing your templates. Look
 carefully at the example view templates in this `README.md` for a guide.
 
-Most context will be passed either via Mustache {{variables}} or via content blocks.
+Most context will be passed either via Mustache `{{variables}}` or via content blocks.
 
 
 ## The Hamstache
