@@ -1,10 +1,37 @@
-require 'action_view'
-require 'active_support'
-require 'active_support/core_ext/class/attribute'
-require 'mustache'
+require 'tilt/template'
 
+module Tilt
+  # Mustache template implementation. See:
+  # https://github.com/defunkt/mustache
+
+  # Mustache templates do not support logic; no if statements, else clauses, or for loops.
+  class MustacheTemplate < Template
+    self.default_mime_type = 'text/html'
+
+    def self.engine_initialized?
+      defined? ::Mustache
+    end
+
+    def initialize_engine
+      require_template_library 'mustache'
+    end
+
+    def prepare
+      @engine = ::Mustache.new
+      @engine.template_file = eval_file
+    end
+
+    def evaluate(scope, locals, &block)
+      @output ||= @engine.render(data, locals.merge(scope.is_a?(Hash) ? scope : {}).merge({:yield => block.nil? ? '' : block.call}))
+    end
+  end
+
+  register MustacheTemplate, 'mustache'
+end
+
+
+# Rails 3.x Template
 class Mustache
-
   # Remember to use {{{yield}}} (3 mustaches) to skip escaping HTML
   # Using {{{tag}}} will skip escaping HTML so if your mustache methods return
   # HTML, be sure to interpolate them using 3 mustaches.
@@ -116,7 +143,7 @@ class Mustache
       end
 
       def self.shared_path
-        @shared_path ||= ::Rails.root.join('app', 'templates', 'shared')
+        @shared_path ||= ::Rails.root.join('app', 'assets', 'javascripts', 'templates', 'shared')
       end
 
       def self.shared_path=(value)
@@ -134,11 +161,10 @@ class Mustache
       #
       # @param [ActionView::Template]
       def call(template)
-        template_file = mustache_template_file(template)
+        source = template.source.empty? ? File.read(template.identifier) : template.source
 
         <<-MUSTACHE
           mustache = ::Mustache::Railstache.new
-          mustache.template_file = #{template_file.inspect}
           mustache.view = self
           mustache[:yield] = content_for(:layout)
           mustache.context.update(local_assigns)
@@ -159,7 +185,7 @@ class Mustache
             attr_reader *variables.map { |name| name.sub(/^@/, '').to_sym }
           end
 
-          mustache.render
+          mustache.render(#{source.inspect})
         MUSTACHE
       end
 
@@ -168,15 +194,8 @@ class Mustache
         new.call(template)
       end
 
-    private
-
-      def mustache_template_file(template)
-        "#{Config.template_base_path}/#{template.virtual_path}.#{Config.template_extension}"
-      end
-
     end
   end
 end
 
-#::ActiveSupport::Dependencies.autoload_paths << Rails.root.join("app", "views")
 ::ActionView::Template.register_template_handler(:mustache, Mustache::Railstache::TemplateHandler)
