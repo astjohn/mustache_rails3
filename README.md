@@ -182,3 +182,10 @@ To add syntax highlighting support for .Hamstache, append to your `~/.vimrc`:
 ```vimrc
 au Bufread,BufNewFile *.hamstache set filetype=haml
 ```
+
+## Emacs users
+
+Add following somwhere (eg ~/.emacs.d/init.el)
+```lisp
+(add-to-list 'auto-mode-alist '("\\.feature$" . feature-mode))
+```
