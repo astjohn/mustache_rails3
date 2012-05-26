@@ -185,7 +185,8 @@ au Bufread,BufNewFile *.hamstache set filetype=haml
 
 ## Emacs users
 
-Add following somwhere (eg ~/.emacs.d/init.el)
+Append somewhere. e.g., `~/.emacs.d/init.el`:
+
 ```lisp
-(add-to-list 'auto-mode-alist '("\\.feature$" . feature-mode))
+(add-to-list 'auto-mode-alist '("\\.hamstache$" . haml-mode))
 ```
