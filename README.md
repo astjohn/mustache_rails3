@@ -163,8 +163,8 @@ config.assets.paths << Rails.root.join('app', 'views')
 ## Greetz
 
 This generator and template handler is based on the work of Paul Barry, Louis T., Martin Gamsjaeger, 
-Les Hill, Adam Salter, Chris Wanstrath, and Mike Smullin. Thank you for for allowing us all to
-stand a little taller on your shoulders.
+Michael Harrison, Les Hill, Adam Salter, Chris Wanstrath, and Mike Smullin. Thank you for for 
+allowing us all to stand a little taller on your shoulders.
 
 
 ## See also
