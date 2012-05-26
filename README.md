@@ -70,7 +70,7 @@ These are optional.
 ## Context ... it depends.
 
 Or "how NOT to use Rails helpers". Remember, Mustache is the logic-less template format.
-Rails Asset Pipeline includes no context when compiling .js or any other asset. That's one 
+Rails Asset Pipeline includes no context when compiling `.js` or any other asset. That's one 
 reason why SASS/SCSS has to provide their own url helper ruby functions for referencing 
 image file paths. There are NO `link_to` or `user_login_path` ActionView::Helpers
 available in the scope of your asset files.
@@ -105,7 +105,7 @@ object to reference all your beautiful 'staches from anywhere on your site.
 ## Configuration
 
 This initializer is strongly recommended, but not default, yet. Consider carefully...
-it tells both Rails and Hogan to look to a single ./app/views/*/*.hamstache template for
+it tells both Rails and Hogan to look to a single `./app/views/*/*.hamstache` template for
 both front-end and back-end rendering. NO MORE DOUBLE-TREES! I expect this is the way to
 the future.
 
