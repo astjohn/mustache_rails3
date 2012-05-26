@@ -1,36 +1,3 @@
-require 'tilt/template'
-
-module Tilt
-  # Mustache template implementation. See:
-  # https://github.com/defunkt/mustache
-
-  # Mustache templates do not support logic; no if statements, else clauses, or for loops.
-  class MustacheTemplate < Template
-    self.default_mime_type = 'text/html'
-
-    def self.engine_initialized?
-      defined? ::Mustache
-    end
-
-    def initialize_engine
-      require_template_library 'mustache'
-    end
-
-    def prepare
-      @engine = ::Mustache.new
-      @engine.template_file = eval_file
-    end
-
-    def evaluate(scope, locals, &block)
-      @output ||= @engine.render(data, locals.merge(scope.is_a?(Hash) ? scope : {}).merge({:yield => block.nil? ? '' : block.call}))
-    end
-  end
-
-  register MustacheTemplate, 'mustache'
-end
-
-
-# Rails 3.x Template
 class Mustache
   # Remember to use {{{yield}}} (3 mustaches) to skip escaping HTML
   # Using {{{tag}}} will skip escaping HTML so if your mustache methods return
@@ -151,18 +118,11 @@ class Mustache
       end
     end
 
-    class TemplateHandler
-
+    class MustacheTemplateHandler
       class_attribute :default_format
       self.default_format = :mustache
 
-      # @return [String] its evaled in the context of the action view
-      # hence the hack below
-      #
-      # @param [ActionView::Template]
-      def call(template)
-        source = template.source.empty? ? File.read(template.identifier) : template.source
-
+      def logic
         <<-MUSTACHE
           mustache = ::Mustache::Railstache.new
           mustache.view = self
@@ -184,8 +144,23 @@ class Mustache
           mustache.class.class_eval do
             attr_reader *variables.map { |name| name.sub(/^@/, '').to_sym }
           end
+        MUSTACHE
+      end
 
-          mustache.render(#{source.inspect})
+      # @return [String] its evaled in the context of the action view
+      # hence the hack below
+      #
+      # @param [ActionView::Template]
+      def call(template)
+        source = template.source.empty? ? File.read(template.identifier) : template.source
+
+        <<-MUSTACHE
+          #{logic}
+
+          source = #{source.inspect}
+          options = #{options.inspect}
+
+          mustache.render source
         MUSTACHE
       end
 
@@ -193,9 +168,28 @@ class Mustache
       def self.call(template)
         new.call(template)
       end
+    end
 
+
+    class HamstacheTemplateHandler < MustacheTemplateHandler
+      def call(template)
+        options = Haml::Template.options.dup
+        source = template.source.empty? ? File.read(template.identifier) : template.source
+
+        <<-MUSTACHE
+          #{logic}
+
+          source = #{source.inspect}
+          options = #{options.inspect}
+
+          Haml::Engine.new(mustache.render(source), options).render(self)
+        MUSTACHE
+      end
     end
   end
 end
 
-::ActionView::Template.register_template_handler(:mustache, Mustache::Railstache::TemplateHandler)
+::ActionView::Template.register_template_handler(:mustache, Mustache::Railstache::MustacheTemplateHandler)
+['haml.mustache', :hamstache].each do |ext|
+  ::ActionView::Template.register_template_handler(ext.to_sym, Mustache::Railstache::HamstacheTemplateHandler)
+end
