@@ -69,16 +69,20 @@ These are optional.
 
 ## Context ... it depends.
 
-Or "how NOT to use Rails helpers". Remember, Mustache is the logic-less template format.
-Rails Asset Pipeline includes no context when compiling `.js` or any other asset. That's one 
-reason why SASS/SCSS has to provide their own url helper ruby functions for referencing 
-image file paths. There are NO `link_to` or `user_login_path` ActionView::Helpers
-available in the scope of your asset files.
+If all you want to do is use Mustache to render templates Ruby-side, then using contextual Rails
+variables and helpers is fine. But if you [also or alternatively] want to use the same templates 
+for your front-end via Rails Asset Pipeline, then find another way to pass that context.
 
-You'll generally need to understand and remain aware of this when writing your templates. Look
-carefully at the example view templates in this `README.md` for a guide.
+Remember, Mustache is the logic-less template format. Rails Asset Pipeline includes no context 
+when compiling `.js` or any other asset. That's one reason why SASS/SCSS has to provide their
+own url helper ruby functions for referencing  image file paths. There are NO `link_to` or 
+`user_login_path` ActionView::Helpers available in the scope of your asset files.
 
 Most context will be passed either via Mustache `{{variables}}` or via content blocks.
+
+You'll generally need to understand and remain aware of this when writing your templates. Look
+carefully at the view templates shown in this `README.md` for specific examples.
+
 
 
 ## The Hamstache
