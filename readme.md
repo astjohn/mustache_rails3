@@ -1,54 +1,95 @@
 # Mustache view template support for Rails 3
 
 This generator and template handler for Mustache in Rails 3 is based on the
-work of Paul Barry, Louis T., and Martin Gamsjaeger. I am indebted to them
-for allowing me to stand on their shoulders.
-
-This is also available as a [rubygem](http://rubygems.org/gems/mustache_rails3).
-
-THIS CODE IS ALPHA. I have asked for comments on [the mustache project Rails
-Support issue ticket](http://github.com/defunkt/mustache/issues/#issue/3/comment/294928).
-Please leave feedback there, and thanks.
+work of Paul Barry, Louis T., Martin Gamsjaeger, Les Hill, Adam Salter,
+Chris Wanstrath, and Mike Smullin. Thank you for for allowing us all to
+stand on your shoulders.
 
 
 ## Installation
 
 Append to Gemfile:
 
-<pre><code>gem 'mustache'
+```ruby
+gem 'mustache'
 gem 'mustache_rails3'
-</code></pre>
+```
 
 
 ## Configuration
 
 This is optional. You would only need this to change the default which is shown below.
 
-<pre><code>#config/initializer/mustache_rails.rb
+```ruby
+# ./config/initializer/mustache_rails.rb
 
 Mustache::Rails::Config.template_base_path = Rails.root.join('app', 'assets', 'javascripts', 'templates')
-</code></pre>
+```
 
 
 ## View Templates
 
-<pre><code>#app/assets/javascripts/templates/#{controller}/#{action}.mustache
+```mustache
+{{! ./app/assets/javascripts/templates/#{controller}/#{action}.mustache }}
 
 Hello {{world}}!
-</code></pre>
+```
 
 
 ## Layout Templates
 
 These are optional.
 
-<pre><code>#app/assets/javascripts/templates/layouts/#{layout_name}.mustache
+```mustache
+{{! ./app/assets/javascripts/templates/layouts/#{layout_name}.mustache }}
 
-&lt;h1>{{default_title}}&lt;/h1>
+<h1>{{default_title}}</h1>
 {{{yield}}}
-</code></pre>
+```
 
 
-### Plays nice wth:
+## Plays nice wth:
 
-* hogan_assets.gem: provides mustache asset pipeline support. https://github.com/leshill/hogan_assets
+* **hogan_assets.gem**: provides mustache asset pipeline support (aggregation, minification, global javascript object). https://github.com/leshill/hogan_assets
+
+Sample configuration:
+
+```ruby
+# ./config/initializers/mustache.rb
+
+Mustache::Railstache::Config.template_base_path = File.join(Rails.root, 'app', 'views')
+HoganAssets::Config.template_extension = ['mustache', 'hamstache']
+```
+
+```javascript
+// ./app/assets/javascripts/templates/index.js
+
+//= require_tree ../../../views
+```
+
+```ruby
+# ./config/application.rb
+
+# Look for .mustache and .hamstache templates under ./app/views/*/*.mustache and ./app/views/*/*.hamstache
+config.assets.paths << Rails.root.join('app', 'views')
+```
+
+```haml
+-# ./views/#{controller}/#{action}.hamstache
+{{#user}}
+.user(id="user-{{id}}")
+  %h1.name {{name}}
+  {{#photo_url}}
+  %img(src="{{photo_url}}")
+  {{/photo_url}}
+  {{^photo_url}}
+  %img(src="http://placekitten.com/140/140")
+  {{/photo_url}}
+{{/user}}
+```
+
+
+## Greetz
+
+* Thanks Chris for the encouragement http://ozmm.org/posts/haml___mustache.html
+
