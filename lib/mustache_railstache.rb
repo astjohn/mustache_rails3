@@ -97,10 +97,10 @@ class Mustache
     # You can change these defaults in, say, a Rails initializer or
     # environment.rb, e.g.:
     #
-    # Mustache::Rails::Config.template_base_path = Rails.root.join('app', 'templates')
+    # Mustache::Rails::Config.template_base_path = Rails.root.join('app', 'assets', 'javascripts', 'templates')
     module Config
       def self.template_base_path
-        @template_base_path ||= ::Rails.root.join('app', 'templates')
+        @template_base_path ||= ::Rails.root.join('app', 'assets', 'javascripts', 'templates')
       end
 
       def self.template_base_path=(value)

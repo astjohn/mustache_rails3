@@ -14,19 +14,27 @@ app/views/:controller/:action.rb
 
 <pre><code>#app/views/home/index.rb
 
-class Home::Index &lt; Mustache::Railstache
-  def world
-    'New Caprica'
+class Home
+  class Index &lt; Mustache::Railstache
+    def world
+      'New Caprica'
+    end
   end
 end
 </code></pre>
 
 Mustache::Rails registers a TemplateHandler for ".rb" files. Templates go in
-app/templates/:controller/:action.mustache
+app/assets/javascripts/templates/:controller/:action.mustache
 
-<pre><code>#app/templates/home/index.mustache
+<pre><code>#app/assets/javascripts/templates/home/index.mustache
 
 Hello {{world}}!
+</code></pre>
+
+You can change these defaults in, say, a Rails initializer or environment.rb, e.g.:
+
+<pre><code>
+Mustache::Rails::Config.template_base_path = Rails.root.join('app', 'assets', 'javascripts', 'templates')
 </code></pre>
 
 ### Layouts
@@ -35,16 +43,18 @@ Layouts work much the same way, using a similar naming convention. Subclass Must
 
 <pre><code>#app/views/layouts/main.rb
 
-class Layouts::Main &lt; Mustache::Railstache
-  def default_title
-    'A Cylon fleet has jumped into orbit!'
+class Layouts
+  class Main &lt; Mustache::Railstache
+    def default_title
+      'A Cylon fleet has jumped into orbit!'
+    end
   end
 end
 </code></pre>
 
-Place the template for your layout in app/templates/layouts/:layout.format.mustache
+Place the template for your layout in app/assets/javascripts/templates/layouts/:layout.format.mustache
 
-<pre><code>#app/templates/layouts/main.mustache
+<pre><code>#app/assets/javascripts/templates/layouts/main.mustache
 
 &lt;h1>{{default_title}}&lt;/h1>
 {{{yield}}}
