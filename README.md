@@ -78,6 +78,7 @@ available in the scope of your asset files.
 You'll generally need to understand and remain aware of this when writing your templates. Look
 carefully at the example view templates in this `README.md` for a guide.
 
+Most context will be passed either via Mustache {{variables}} or via content blocks.
 
 
 ## The Hamstache
@@ -172,3 +173,12 @@ stand a little taller on your shoulders.
 * Mustache manual and demo. http://mustache.github.com/
 * Hoagan.js reference. http://twitter.github.com/hogan.js/
 * hogan_assets.gem by Les Hill https://github.com/leshill/hogan_assets
+
+
+## For VIM users
+
+To add syntax highlighting support for .Hamstache, append to your `~/.vimrc`:
+
+```vimrc
+au Bufread,BufNewFile *.hamstache set filetype=haml
+```
