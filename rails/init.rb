@@ -1,6 +1,5 @@
 # Be sure to install mustache gem and include mustache gem in project Gemfile.
+require 'mustache_rails3'
 
-# Template Handler
-require 'mustache_railstache'
 # Generator
 Rails.application.config.generators.template_engine :mustache
