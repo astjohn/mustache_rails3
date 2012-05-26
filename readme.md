@@ -28,7 +28,7 @@ Mustache::Rails::Config.template_base_path = Rails.root.join('app', 'assets', 'j
 </code></pre>
 
 
-### View Templates
+## View Templates
 
 <pre><code>#app/assets/javascripts/templates/#{controller}/#{action}.mustache
 
@@ -45,11 +45,11 @@ Hello {{world}}!
 </code></pre>
 
 
-## Plays nice wth:
+### Plays nice wth:
 
 * hogan_assets.gem: provides mustache asset pipeline support. https://github.com/leshill/hogan_assets
 
 
-## TODO:
+### TODO:
 
 * Add support for easy conversion of Rails::Mustache objects to JSON representations
