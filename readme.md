@@ -1,83 +1,55 @@
-## Mustache support for Rails 3
+# Mustache view template support for Rails 3
 
 This generator and template handler for Mustache in Rails 3 is based on the
-work of Paul Barry, Louis T., and Martin Gamsjaeger. I am indebted to them for allowing me to stand on their shoulders.
+work of Paul Barry, Louis T., and Martin Gamsjaeger. I am indebted to them
+for allowing me to stand on their shoulders.
 
 This is also available as a [rubygem](http://rubygems.org/gems/mustache_rails3).
 
-I'm just getting started. This really is a low-numbered prerelease. :-) I have asked for comments on [the mustache project's Rails Support issue ticket](http://github.com/defunkt/mustache/issues/#issue/3/comment/294928). Please leave feedback there, and thanks.
+THIS CODE IS ALPHA. I have asked for comments on [the mustache project Rails
+Support issue ticket](http://github.com/defunkt/mustache/issues/#issue/3/comment/294928).
+Please leave feedback there, and thanks.
 
-### Views & Templates
 
-For your view files, subclass Mustache::Railstache as (:controller)::(:action) in
-app/views/:controller/:action.rb
+## Installation
 
-<pre><code>#app/views/home/index.rb
+Append to Gemfile:
 
-class Home
-  class Index &lt; Mustache::Railstache
-    def world
-      'New Caprica'
-    end
-  end
-end
+<pre><code>
+gem 'mustache'
+gem 'mustache_rails3'
 </code></pre>
 
-Mustache::Rails registers a TemplateHandler for ".rb" files. Templates go in
-app/assets/javascripts/templates/:controller/:action.mustache
 
-<pre><code>#app/assets/javascripts/templates/home/index.mustache
+## Configuration
+
+<pre><code>#config/initializer/mustache_rails.rb
+Mustache::Rails::Config.template_base_path = Rails.root.join('app', 'assets', 'javascripts', 'templates')
+</code></pre>
+
+
+### View Templates
+
+<pre><code>#app/assets/javascripts/templates/#{controller}/#{action}.mustache
 
 Hello {{world}}!
 </code></pre>
 
-You can change these defaults in, say, a Rails initializer or environment.rb, e.g.:
 
-<pre><code>
-Mustache::Rails::Config.template_base_path = Rails.root.join('app', 'assets', 'javascripts', 'templates')
-</code></pre>
+## Layout Templates
 
-### Layouts
-
-Layouts work much the same way, using a similar naming convention. Subclass Mustache::Rails as Layouts::(:layout) in app/views/layouts/:layout.rb
-
-<pre><code>#app/views/layouts/main.rb
-
-class Layouts
-  class Main &lt; Mustache::Railstache
-    def default_title
-      'A Cylon fleet has jumped into orbit!'
-    end
-  end
-end
-</code></pre>
-
-Place the template for your layout in app/assets/javascripts/templates/layouts/:layout.format.mustache
-
-<pre><code>#app/assets/javascripts/templates/layouts/main.mustache
+<pre><code>#app/assets/javascripts/templates/layouts/#{layout_name}.mustache
 
 &lt;h1>{{default_title}}&lt;/h1>
 {{{yield}}}
 </code></pre>
 
-### Instructions
 
-A Rails 3 reminder: be sure to add
-<pre><code>gem 'mustache'</code></pre>
-to your project's Gemfile before running any generators or starting the server.
+## Plays nice wth:
 
-If you're using the mustache_rails3 gem, be sure to also add
-<pre><code>gem 'mustache_rails3'</code></pre>
+* hogan_assets.gem: provides mustache asset pipeline support. https://github.com/leshill/hogan_assets
 
-You can enable the mustache template handler by running
-<pre><code>rails g mustache:install</code></pre>
-in your project directory.
 
-### TODO:
+## TODO:
 
-* Add controller-retrofit generator to build default mustache views for existing controllers
-* Generate different fields for different attribute types
 * Add support for easy conversion of Rails::Mustache objects to JSON representations
-* Think about allowing to overwrite layout methods in subclassing views:
-  http://github.com/defunkt/mustache/blob/master/lib/mustache/sinatra.rb#L79-82
-  http://github.com/defunkt/mustache/blob/master/lib/mustache/sinatra.rb#L96-102

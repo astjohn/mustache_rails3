@@ -14,17 +14,14 @@ class Mustache
         base_mustache_view_path     = File.join("app/views", model_path)
         empty_directory base_mustache_view_path
 
-        base_mustache_template_path = File.join("app/templates", model_path)
+        base_mustache_template_path = File.join("app/assets/javascripts/templates", model_path)
         empty_directory base_mustache_template_path
 
         actions.each do |action|
           @action  = action
-          mustache_view_path       = File.join(base_mustache_view_path,
-                                                "#{action}.rb")
           mustache_template_path   = File.join(base_mustache_template_path,
                                                 "#{action}.mustache")
 
-          template "view.rb.erb", mustache_view_path
           template "view.mustache.erb", mustache_template_path
         end
       end

@@ -68,7 +68,7 @@ class Mustache
       rv
     end
 
-    # Redefine where Mustache::Rails templates locate their partials:
+    # Redefine where Mustache::Railstache templates locate their partials:
     #
     # (1) in the same directory as the current template file.
     # (2) in the shared templates path (can be configured via Config.shared_path=(value))
@@ -97,7 +97,7 @@ class Mustache
     # You can change these defaults in, say, a Rails initializer or
     # environment.rb, e.g.:
     #
-    # Mustache::Rails::Config.template_base_path = Rails.root.join('app', 'assets', 'javascripts', 'templates')
+    # Mustache::Railstache::Config.template_base_path = Rails.root.join('app', 'assets', 'javascripts', 'templates')
     module Config
       def self.template_base_path
         @template_base_path ||= ::Rails.root.join('app', 'assets', 'javascripts', 'templates')
@@ -134,11 +134,10 @@ class Mustache
       #
       # @param [ActionView::Template]
       def call(template)
-        mustache_class = mustache_class_from_template(template)
         template_file = mustache_template_file(template)
 
         <<-MUSTACHE
-          mustache = ::#{mustache_class}.new
+          mustache = ::Mustache::Railstache.new
           mustache.template_file = #{template_file.inspect}
           mustache.view = self
           mustache[:yield] = content_for(:layout)
@@ -155,7 +154,7 @@ class Mustache
           end
 
           # Declaring an +attr_reader+ for each instance variable in the
-          # Mustache::Rails subclass makes them available to your templates.
+          # Mustache::Railstache subclass makes them available to your templates.
           mustache.class.class_eval do
             attr_reader *variables.map { |name| name.sub(/^@/, '').to_sym }
           end
@@ -171,12 +170,6 @@ class Mustache
 
     private
 
-      def mustache_class_from_template(template)
-        require File.join(Rails.root, template.inspect)
-        const_name = ActiveSupport::Inflector.camelize(template.virtual_path.to_s)
-        defined?(const_name) ? const_name.constantize : Mustache
-      end
-
       def mustache_template_file(template)
         "#{Config.template_base_path}/#{template.virtual_path}.#{Config.template_extension}"
       end
@@ -186,4 +179,4 @@ class Mustache
 end
 
 #::ActiveSupport::Dependencies.autoload_paths << Rails.root.join("app", "views")
-::ActionView::Template.register_template_handler(:rb, Mustache::Railstache::TemplateHandler)
+::ActionView::Template.register_template_handler(:mustache, Mustache::Railstache::TemplateHandler)
