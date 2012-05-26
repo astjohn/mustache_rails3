@@ -15,8 +15,7 @@ Please leave feedback there, and thanks.
 
 Append to Gemfile:
 
-<pre><code>
-gem 'mustache'
+<pre><code>gem 'mustache'
 gem 'mustache_rails3'
 </code></pre>
 
@@ -24,6 +23,7 @@ gem 'mustache_rails3'
 ## Configuration
 
 <pre><code>#config/initializer/mustache_rails.rb
+
 Mustache::Rails::Config.template_base_path = Rails.root.join('app', 'assets', 'javascripts', 'templates')
 </code></pre>
 
@@ -48,8 +48,3 @@ Hello {{world}}!
 ### Plays nice wth:
 
 * hogan_assets.gem: provides mustache asset pipeline support. https://github.com/leshill/hogan_assets
-
-
-### TODO:
-
-* Add support for easy conversion of Rails::Mustache objects to JSON representations
