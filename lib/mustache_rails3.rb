@@ -78,7 +78,7 @@ class Mustache
         template_dir = Pathname.new(self.template_file).dirname
       end
 
-      partial_name = "_#{name}.#{Config.template_extension}"
+      partial_name = "_#{name}#{Pathname.new(self.template_file).extname}"
       partial_path = File.expand_path("#{template_dir}/#{partial_name}")
 
       unless dir or File.file?(partial_path)
@@ -157,6 +157,9 @@ class Mustache
         <<-MUSTACHE
           #{logic}
 
+          mustache.template_file = #{File.join(Rails.root, Pathname.new(template.inspect)).inspect}
+          mustache.template_path = #{File.join(Rails.root, Pathname.new(template.inspect).dirname.to_s).inspect}
+          mustache.template_extension = #{Pathname.new(template.inspect).extname.inspect}
           source = #{source.inspect}
           options = #{options.inspect}
 
@@ -173,12 +176,15 @@ class Mustache
 
     class HamstacheTemplateHandler < MustacheTemplateHandler
       def call(template)
-        options = Haml::Template.options.dup
+        options = Haml::Template.options.dup if Haml::Template.options
         source = template.source.empty? ? File.read(template.identifier) : template.source
 
         <<-MUSTACHE
           #{logic}
 
+          mustache.template_file = #{File.join(Rails.root, Pathname.new(template.inspect)).inspect}
+          mustache.template_path = #{File.join(Rails.root, Pathname.new(template.inspect).dirname.to_s).inspect}
+          mustache.template_extension = #{Pathname.new(template.inspect).extname.inspect}
           source = #{source.inspect}
           options = #{options.inspect}
 
