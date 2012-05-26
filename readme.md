@@ -40,6 +40,8 @@ Hello {{world}}!
 
 ## Layout Templates
 
+These are optional.
+
 <pre><code>#app/assets/javascripts/templates/layouts/#{layout_name}.mustache
 
 &lt;h1>{{default_title}}&lt;/h1>
