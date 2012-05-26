@@ -172,6 +172,7 @@ class Mustache
     private
 
       def mustache_class_from_template(template)
+        require File.join(Rails.root, template.inspect)
         const_name = ActiveSupport::Inflector.camelize(template.virtual_path.to_s)
         defined?(const_name) ? const_name.constantize : Mustache
       end
