@@ -1,7 +1,7 @@
 # Do you ...
 * **Want to use .Mustache view templates in Rails 3?**
 * **Want all your Mustache templates to be compatible with the Rails Asset Pipeline?**
-* **Want to get crazy with some HAML Mustache a.k.a. /Hamstache?**
+* **Want to get crazy with some HAML Mustache a.k.a. .Hamstache?**
 
 Well, you've come to the right gem...
 
