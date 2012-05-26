@@ -58,7 +58,7 @@ Sample configuration:
 # ./config/initializers/mustache.rb
 
 Mustache::Railstache::Config.template_base_path = File.join(Rails.root, 'app', 'views')
-HoganAssets::Config.template_extension = ['mustache', 'hamstache']
+HoganAssets::Config.template_extensions = ['mustache', 'hamstache']
 ```
 
 ```javascript
