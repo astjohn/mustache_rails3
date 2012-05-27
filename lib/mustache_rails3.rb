@@ -78,7 +78,7 @@ class Mustache
         template_dir = Pathname.new(self.template_file).dirname
       end
 
-      partial_name = "_#{name}#{Pathname.new(self.template_file).extname}"
+      partial_name = "#{name}#{Pathname.new(self.template_file).extname}"
       partial_path = File.expand_path("#{template_dir}/#{partial_name}")
 
       unless dir or File.file?(partial_path)
