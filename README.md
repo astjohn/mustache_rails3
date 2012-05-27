@@ -32,6 +32,33 @@ Mustache::Rails::Config.template_base_path = Rails.root.join('app', 'assets', 'j
 ```
 
 
+## Controller Actions
+
+```ruby
+# GET /contacts
+# GET /contacts.json
+def index
+  @contacts = Contacts.all
+
+  respond_to do |format|
+    format.html # index.hamstache
+    format.json { render json: @contacts } # for responding to AJAX; provides data only and in json format
+  end
+end
+
+# GET /contacts/1
+# GET /contacts/1.json
+def show
+  @contact = Contacts.find(params[:id])
+  
+  respond_to do |format|
+    format.html # show.hamstache or edit.hamstache; same thing
+    format.json { render json: @contact } # for responding to AJAX; provides data only and in json format
+  end
+end
+```
+
+
 ## View Templates
 
 ```mustache
@@ -48,11 +75,10 @@ Notice the last line of the previous template. That will include the following
 partial `.mustache` template:
 
 ```mustache
-{{! ./app/assets/javascripts/templates/#{controller}/_hello_again.mustache }}
-{{! or ./app/assets/javascripts/templates/shared/_hello_again.mustache }}
+{{! ./app/assets/javascripts/templates/#{controller}/hello_again.mustache }}
+{{! or ./app/assets/javascripts/templates/shared/hello_again.mustache }}
 
 Hello again, {{world}}!
-{{>
 ```
 
 
