@@ -105,6 +105,8 @@ own url helper ruby functions for referencing  image file paths. There are NO `l
 `user_login_path` ActionView::Helpers available in the scope of your asset files.
 
 Most context will be passed either via Mustache `{{variables}}` or via content blocks.
+Keep all presentation logic out of your 'staches AND your controller actions; it belongs in the
+presentation layer, and is most efficiently moved into JavaScript/CoffeeScript behaviors.
 
 You'll generally need to understand and remain aware of this when writing your templates. Look
 carefully at the view templates shown in this `README.md` for specific examples.
