@@ -115,7 +115,7 @@ carefully at the view templates shown in this `README.md` for specific examples.
 
 ## The Hamstache
 
-Because everything tastes better with bacon--err, HAML... all up in your 'stache!
+Because everything tastes better with bacon--err, HAML... all up in your 'stache! Chunky bacon!!
 
 ## Installation
 
