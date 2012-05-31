@@ -144,6 +144,11 @@ class Mustache
           mustache.class.class_eval do
             attr_reader *variables.map { |name| name.sub(/^@/, '').to_sym }
           end
+
+          # provide reverse link to reference within view
+          # useful in lambda functions like
+          # lambda {|text| @mustache.render(text).downcase }
+          self.instance_variable_set('@mustache', mustache)
         MUSTACHE
       end
 
@@ -188,7 +193,7 @@ class Mustache
           source = #{source.inspect}
           options = #{options.inspect}
 
-          Haml::Engine.new(mustache.render(source), options).render(self)
+          mustache.render(Haml::Engine.new(source, options).render(self)) # haml then mustache makes most sense
         MUSTACHE
       end
     end
