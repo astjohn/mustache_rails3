@@ -95,22 +95,32 @@ These are optional.
 
 ## Context ... it depends.
 
-If all you want to do is use Mustache to render templates Ruby-side, then using contextual Rails
-variables and helpers is fine. But if you [also or alternatively] want to use the same templates 
-for your front-end via Rails Asset Pipeline, then find another way to pass that context.
+The hardest part of using this gem will be getting into the habit of passing context via json, 
+and moving all presentation logic to the front-end, especially to support the otherwise logicless 
+mustache templates.
 
-Remember, Mustache is the logic-less template format. Rails Asset Pipeline includes no context 
-when compiling `.js` or any other asset. That's one reason why SASS/SCSS has to provide their
-own url helper ruby functions for referencing  image file paths. There are NO `link_to` or 
-`user_login_path` ActionView::Helpers available in the scope of your asset files.
+To pass context, if all you want to do is use Mustache to render templates Ruby-side, then using 
+Rails helpers is fine. But if you [also or alternatively] need to render on the front-end, then
+you must remember Rails Asset Pipeline includes no context when compiling `.js` or any other 
+asset. That's one reason SASS/SCSS has custom url helper functions for image paths. There are 
+NO `link_to` or `user_login_path` ActionView::Helpers available in the scope of your asset files, 
+so if you want them you'll have to port the Ruby/Rails implementations of those helpers to 
+equivalent front-end JavaScript/CoffeeScript behaviors.
 
-Most context will be passed either via Mustache `{{variables}}` or via content blocks.
-Keep all presentation logic out of your 'staches AND your controller actions; it belongs in the
-presentation layer, and is most efficiently moved into JavaScript/CoffeeScript behaviors.
+Most contextual data will need to be passed from controller action as `respond_to` `.json` to 
+Mustache `{{variables}}` which often go good inline with your markup hierarchy as HTML5 data 
+attributes. Sometimes you will pass raw data and only implement a `.js` helper to format it on
+page load. Other times you will implement a `.rb` and a `.js` version of the same helper so
+that it can be rendered the same by server-side or client-side. I personally prefer the
+former approach. My philosophy is to keep all presentation logic out of your 'staches AND 
+your controller actions;it belongs in the front-end. 
 
-You'll generally need to understand and remain aware of this when writing your templates. Look
-carefully at the view templates shown in this `README.md` for specific examples.
+Look carefully at the view templates shown in this `README.md` for specific examples.
 
+If you go with my philosophy, then a View-Controller (no Model) front-end framework like
+Joosy.ws probably works best, since the data is passed to match the template hierarchy, 
+not like an api which serves resources mapped to database tables. You'll probably find
+libraries like Sugar.js a useful replacement for default Rails helpers, as well.
 
 
 ## The Hamstache
