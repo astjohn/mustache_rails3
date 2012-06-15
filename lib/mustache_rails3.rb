@@ -122,9 +122,10 @@ class Mustache
       class_attribute :default_format
       self.default_format = :mustache
 
-      def logic
+      def logic(template)
+        class_name = mustache_class_from_template(template)
         <<-MUSTACHE
-          mustache = ::Mustache::Railstache.new
+          mustache = ::#{class_name}.new
           mustache.view = self
           mustache[:yield] = content_for(:layout)
           mustache.context.update(local_assigns)
@@ -160,7 +161,7 @@ class Mustache
         source = template.source.empty? ? File.read(template.identifier) : template.source
 
         <<-MUSTACHE
-          #{logic}
+          #{logic(template)}
 
           mustache.template_file = #{File.join(Rails.root, Pathname.new(template.inspect)).inspect}
           mustache.template_path = #{File.join(Rails.root, Pathname.new(template.inspect).dirname.to_s).inspect}
@@ -175,6 +176,11 @@ class Mustache
       # In Rails 3.1+, #call takes the place of #compile
       def self.call(template)
         new.call(template)
+      end
+      private
+      def mustache_class_from_template(template)
+        const_name = ActiveSupport::Inflector.camelize(template.virtual_path.to_s)	
+        defined?(const_name) ? const_name.constantize : Mustache::Railstache	
       end
     end
 
@@ -201,6 +207,8 @@ class Mustache
 end
 
 ::ActionView::Template.register_template_handler(:mustache, Mustache::Railstache::MustacheTemplateHandler)
+::ActiveSupport::Dependencies.load_paths << Rails.root.join("app", "views")
+::ActionView::Template.register_template_handler(:rb, Mustache::Railstache::HamstacheTemplateHandler)
 ['haml.mustache', :hamstache].each do |ext|
-  ::ActionView::Template.register_template_handler(ext.to_sym, Mustache::Railstache::HamstacheTemplateHandler)
+  # ::ActionView::Template.register_template_handler(ext.to_sym, Mustache::Railstache::HamstacheTemplateHandler)
 end
