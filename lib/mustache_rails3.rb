@@ -191,7 +191,7 @@ class Mustache
         source = template.source.empty? ? File.read(template.identifier) : template.source
 
         <<-MUSTACHE
-          #{logic}
+          #{logic(template)}
 
           mustache.template_file = #{File.join(Rails.root, Pathname.new(template.inspect)).inspect}
           mustache.template_path = #{File.join(Rails.root, Pathname.new(template.inspect).dirname.to_s).inspect}
