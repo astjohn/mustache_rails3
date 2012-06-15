@@ -207,7 +207,7 @@ class Mustache
 end
 
 ::ActionView::Template.register_template_handler(:mustache, Mustache::Railstache::MustacheTemplateHandler)
-::ActionView::Template.register_template_handler(:rb, Mustache::Railstache::HamstacheTemplateHandler)
+#::ActionView::Template.register_template_handler(:rb, Mustache::Railstache::HamstacheTemplateHandler)
 ['haml.mustache', :hamstache].each do |ext|
-  # ::ActionView::Template.register_template_handler(ext.to_sym, Mustache::Railstache::HamstacheTemplateHandler)
+  ::ActionView::Template.register_template_handler(ext.to_sym, Mustache::Railstache::HamstacheTemplateHandler)
 end
