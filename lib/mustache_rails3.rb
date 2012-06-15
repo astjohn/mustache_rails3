@@ -207,7 +207,6 @@ class Mustache
 end
 
 ::ActionView::Template.register_template_handler(:mustache, Mustache::Railstache::MustacheTemplateHandler)
-::ActiveSupport::Dependencies.load_paths << Rails.root.join("app", "views")
 ::ActionView::Template.register_template_handler(:rb, Mustache::Railstache::HamstacheTemplateHandler)
 ['haml.mustache', :hamstache].each do |ext|
   # ::ActionView::Template.register_template_handler(ext.to_sym, Mustache::Railstache::HamstacheTemplateHandler)
