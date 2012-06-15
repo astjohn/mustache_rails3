@@ -156,6 +156,8 @@ the future.
 
 Mustache::Railstache::Config.template_base_path = File.join(Rails.root, 'app', 'views')
 Mustache::Railstache::Config.shared_path = File.join(Rails.root, 'app', 'views', 'shared')
+# Or whereever you want to load .rb views from.
+::ActiveSupport::Dependencies.autoload_paths << Rails.root.join("app", "views")
 ```
 
 This tells Rails Asset Pipeline to look in the non-standard `./app/views/*` tree recursively
