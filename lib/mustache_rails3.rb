@@ -9,6 +9,7 @@ class Mustache
     str.html_safe? ? str : CGI.escapeHTML(str)
   end
 
+
   class Railstache < Mustache
     attr_accessor :view
 
@@ -179,8 +180,8 @@ class Mustache
       end
       private
       def mustache_class_from_template(template)
-        const_name = ActiveSupport::Inflector.camelize(template.virtual_path.to_s)	
-        defined?(const_name) ? const_name.constantize : Mustache::Railstache	
+        const_name = ActiveSupport::Inflector.camelize(template.virtual_path.to_s)
+        defined?(const_name) ? const_name.constantize : Mustache::Railstache
       end
     end
 
@@ -202,6 +203,21 @@ class Mustache
           mustache.render(Haml::Engine.new(source, options).render(self)) # haml then mustache makes most sense
         MUSTACHE
       end
+      private
+      def mustache_class_from_template(template)
+        const_name = ActiveSupport::Inflector.camelize(template.virtual_path.to_s)
+        defined?(const_name) ? const_name.constantize : Mustache::Hamstache
+      end
+    end
+  end
+  class Hamstache < Railstache
+    # Run Haml engine on partial.
+    #
+    def partial(name)
+      file = super(name)
+      options = Haml::Template.options.dup if Haml::Template.options
+      options ||= {}
+      Haml::Engine.new(file, options).render(self)
     end
   end
 end
