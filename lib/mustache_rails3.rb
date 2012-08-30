@@ -180,8 +180,12 @@ class Mustache
       end
       private
       def mustache_class_from_template(template)
-        const_name = ActiveSupport::Inflector.camelize(template.virtual_path.to_s)
-        defined?(const_name) ? const_name.constantize : Mustache::Railstache
+        begin
+          const_name = ActiveSupport::Inflector.camelize(template.virtual_path.to_s)
+          const_name.constantize
+        rescue NameError
+          Mustache::Railstache
+        end
       end
     end
 
@@ -205,8 +209,12 @@ class Mustache
       end
       private
       def mustache_class_from_template(template)
-        const_name = ActiveSupport::Inflector.camelize(template.virtual_path.to_s)
-        defined?(const_name) ? const_name.constantize : Mustache::Hamstache
+        begin
+          const_name = ActiveSupport::Inflector.camelize(template.virtual_path.to_s)
+          const_name.constantize
+        rescue NameError
+          Mustache::Hamstache
+        end
       end
     end
   end
