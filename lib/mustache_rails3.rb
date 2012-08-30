@@ -71,18 +71,19 @@ class Mustache
     def partial(name)
       name = name.to_s
 
-      if name.index '/'
-        dir, name = name.split(/\//)
-
-        template_dir = "#{Config.template_base_path}/#{dir}"
-      else
+      #if name.index '/'
+      #  dir, name = name.split(/\//)
+      #
+      #  template_dir = "#{Config.template_base_path}/#{dir}"
+      #else
         template_dir = Pathname.new(self.template_file).dirname
-      end
+      #end
 
       partial_name = "#{name}#{Pathname.new(self.template_file).extname}"
       partial_path = File.expand_path("#{template_dir}/#{partial_name}")
 
-      unless dir or File.file?(partial_path)
+      #unless dir or File.file?(partial_path)
+      unless File.file?(partial_path)
         partial_path = "#{Config.shared_path}/#{partial_name}"
       end
 
@@ -121,7 +122,8 @@ class Mustache
 
     class MustacheTemplateHandler
       class_attribute :default_format
-      self.default_format = :mustache
+      self.default_format = Mime::HTML
+      #self.default_format = :mustache
 
       def logic(template)
         class_name = mustache_class_from_template(template)
@@ -176,7 +178,11 @@ class Mustache
 
       # In Rails 3.1+, #call takes the place of #compile
       def self.call(template)
-        new.call(template)
+        if template.formats.include?(:html)
+          new.call(template)
+        else
+          ""
+        end
       end
       private
       def mustache_class_from_template(template)
@@ -222,8 +228,7 @@ class Mustache
   end
 end
 
-::ActionView::Template.register_template_handler(:mustache, Mustache::Railstache::MustacheTemplateHandler)
 #::ActionView::Template.register_template_handler(:rb, Mustache::Railstache::HamstacheTemplateHandler)
-['haml.mustache', :hamstache].each do |ext|
+['haml.mustache', 'html.hamstache', :mustache, :hamstache].each do |ext|
   ::ActionView::Template.register_template_handler(ext.to_sym, Mustache::Railstache::HamstacheTemplateHandler)
 end
